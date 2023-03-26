@@ -104,27 +104,51 @@ void deleteDouble(ListNode *&head) {
     }
 }
 
+int menu() {
+    int choice = 0;
+    cout << "Make a choice:\n1 - add node\n2 - show list\n3 - delete double\n4 - delete list\n5 - quit";
+    cin >> choice;
+    return choice;
+}
+
 int main() {
     ListNode *head = nullptr;
-    addNode(head, {"Yuri Khovanski", "Serbia", 1, 10.0});
-    addNode(head, {"Nick Chernikov", "Poland", 1, 5.2});
-    addNode(head, {"Zodiac Xyz", "Russia", 1, 81.0});
-    addNode(head, {"Nemagia", "Russia", 1, 2.45});
-    addNode(head, {"Yuri Khovanski", "Serbia", 1, 10.0});
-    addNode(head, {"Zoe Kempinski", "Guadelupa", 1, 11.0});
-    addNode(head, {"Yuri Khovanski", "Serbia", 1, 10.0});
-    addNode(head, {"Andrew Babe", "Poland", 1, 6.7});
+    string name, address;
+    int option, group;
+    double rate, max_rate, min_rate;
 
-    showList(head);
-    cout << "Length of list: " << countList(head) << endl;
-    double max_rate = findMax(head);
-    cout << "Max rating: " << max_rate << endl;
-    double min_rate = findMin(head);
-    cout << "Min rating: " << min_rate << endl;
+    do {
+        option = menu();
+        cin.ignore();
+        if (option == 1) {
+            cout << "Name: ";
+            getline(cin, name);
+            cout << "Address: ";
+            getline(cin, address);
+            cout << "Group (int): ";
+            cin >> group;
+            cout << "Rate (double): ";
+            cin >> rate;
+            addNode(head, {name, address, group, rate});
+        } else if (option == 2) {
+            showList(head);
+            cout << "Length of list: " << countList(head) << endl;
+            cout << "\n\n";
+        } else if (option == 3) {
+            deleteDouble(head);
+            showList(head);
+        } else if (option == 4) {
+            deleteList(head);
+            cout << "Deleted!\n\n";
+        } else if (option == 5) {
+            max_rate = findMax(head);
+            cout << "Max rating: " << max_rate << endl;
+            min_rate = findMin(head);
+            cout << "Min rating: " << min_rate << endl;
+        } else {
+            cout << "Incorrect choice!";
+        }
+    } while (option != 5);
 
-    deleteDouble(head);
-    showList(head);
-
-    deleteList(head);
     return 0;
 }
