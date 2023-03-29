@@ -4,7 +4,7 @@
 using namespace std;
 
 void findClosestFraction(int x, int n, int &best_m, int &best_n, double &best_diff) {
-    if (n > 100) {
+    if (n >= 100) {
         return;
     }
 
@@ -30,15 +30,12 @@ int main()
     cout << "Введите натуральное число: ";
     cin >> x;
 
-    int a = sqrt(x);
-    int b = a + 1;
-
     int best_m = 0;
     int best_n = 1;
     double best_diff = x;
 
     findClosestFraction(x, 1, best_m, best_n, best_diff);
-    best_m = (best_m % best_n) + best_n / best_m + 1;
+    //best_m = (best_m % best_n) + best_n / best_m + 1;
     cout << "Ближайшая к корню из " << x << " дробь: " << best_m << "/" << best_n << endl;
 
     return 0;
