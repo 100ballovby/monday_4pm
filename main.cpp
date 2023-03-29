@@ -3,40 +3,28 @@
 
 using namespace std;
 
-void findClosestFraction(int x, int n, int &best_m, int &best_n, double &best_diff) {
-    if (n >= 100) {
-        return;
+int printLeadingDigit(int n) {
+    if (n < 10) {
+        return n;
+    } else {
+        return printLeadingDigit(n / 10);
     }
-
-    int m = round(n * sqrt(x));
-    if (m == 0) {
-        findClosestFraction(x, n+1, best_m, best_n, best_diff);
-        return;
-    }
-
-    double diff = abs(sqrt(x) - (double)m/n);
-    if (diff < best_diff) {
-        best_m = m;
-        best_n = n;
-        best_diff = diff;
-    }
-
-    findClosestFraction(x, n+1, best_m, best_n, best_diff);
 }
 
-int main()
-{
-    int x;
-    cout << "Введите натуральное число: ";
-    cin >> x;
+int countDigits(int n) {
+    if (n < 10) {
+        return 1;
+    } else {
+        return 1 + countDigits(n / 10);
+    }
+}
 
-    int best_m = 0;
-    int best_n = 1;
-    double best_diff = x;
+int main() {
+    int n;
+    cout << "введите натуральное число: ";
+    cin >> n;
+    cout << "Старшая цифра введенного числа " << printLeadingDigit(n) << endl;
 
-    findClosestFraction(x, 1, best_m, best_n, best_diff);
-    //best_m = (best_m % best_n) + best_n / best_m + 1;
-    cout << "Ближайшая к корню из " << x << " дробь: " << best_m << "/" << best_n << endl;
-
+    cout << "Количество цифор в десятичной записи: " << countDigits(n) << endl;
     return 0;
 }
