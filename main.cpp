@@ -3,32 +3,32 @@
 #include <fstream>
 using namespace std;
 
-// A struct to represent a vertex
+// Структура для представления вершины
 struct Vertex {
     int id;
     vector<int> adjacentVertices;
 };
 
-// A struct to represent an edge
+// Структура для представления ребра
 struct Edge {
     int sourceVertex;
     int destinationVertex;
 };
 
-// A struct to represent a graph
+// Структура для представления графа
 struct Graph {
     vector<Vertex> vertices;
     vector<Edge> edges;
 };
 
-// A function to print the graph data to a text file
+// Функция для печати данных графа в текстовый файл
 void printGraphToFile(const Graph &graph, const string &filename) {
     ofstream outfile(filename);
 
-    // Print the number of vertices
+    // Вывести количество вершин
     outfile << graph.vertices.size() << endl;
 
-    // Print the vertices
+    // Вывести вершины
     for (int i = 0; i < graph.vertices.size(); i++) {
         outfile << graph.vertices[i].id << " ";
         for (int j = 0; j < graph.vertices[i].adjacentVertices.size(); j++) {
@@ -37,7 +37,7 @@ void printGraphToFile(const Graph &graph, const string &filename) {
         outfile << endl;
     }
 
-    // Print the edges
+    // Вывести края
     for (int i = 0; i < graph.edges.size(); i++) {
         outfile << graph.edges[i].sourceVertex << " " << graph.edges[i].destinationVertex << endl;
     }
@@ -45,24 +45,24 @@ void printGraphToFile(const Graph &graph, const string &filename) {
     outfile.close();
 }
 
-// A function to read the graph data from a text file
+// Функция для чтения данных графа из текстового файла
 Graph readGraphFromFile(const string &filename) {
     Graph graph;
 
     ifstream infile(filename);
 
-    // Read the number of vertices
+    // Прочитать количество вершин
     int numVertices;
     infile >> numVertices;
 
-    // Read the vertices
+    // Чтение вершин
     for (int i = 0; i < numVertices; i++) {
         Vertex vertex;
         infile >> vertex.id;
         graph.vertices.push_back(vertex);
     }
 
-    // Read the edges
+    // Чтение краев
     for (int i = 0; i < numVertices; i++) {
         Edge edge;
         infile >> edge.sourceVertex >> edge.destinationVertex;
@@ -74,26 +74,26 @@ Graph readGraphFromFile(const string &filename) {
     return graph;
 }
 
-// A function to fill the graph randomly by asking the user for the number of vertices and edges
+// Функция для случайного заполнения графа, запрашивая у пользователя количество вершин и ребер.
 void fillGraphRandomly(Graph &graph) {
     int numVertices, numEdges;
 
-    // Ask the user for the number of vertices
+    // Запросить у пользователя количество вершин
     cout << "Enter the number of vertices: ";
     cin >> numVertices;
 
-    // Ask the user for the number of edges
+    // Запросить у пользователя количество ребер
     cout << "Enter the number of edges: ";
     cin >> numEdges;
 
-    // Create the vertices
+    // Создать вершины
     for (int i = 0; i < numVertices; i++) {
         Vertex vertex;
         vertex.id = i;
         graph.vertices.push_back(vertex);
     }
 
-    // Create the edges
+    // Создать края
     for (int i = 0; i < numEdges; i++) {
         Edge edge;
         edge.sourceVertex = rand() % numVertices;
@@ -102,44 +102,44 @@ void fillGraphRandomly(Graph &graph) {
     }
 }
 
-// A function that allows using the given adjacency matrix (data set from the console) to build an incidence matrix
+// Функция, позволяющая по заданной матрице смежности (набору данных из консоли) построить матрицу инцидентности
 void buildIncidenceMatrix(const Graph &graph, vector<vector<int>> &incidenceMatrix) {
     int numVertices = graph.vertices.size();
     int numEdges = graph.edges.size();
 
-    // Create the incidence matrix
+    // Создать матрицу заболеваемости
     incidenceMatrix.resize(numVertices);
-    // Iterate over the edges
+
     for (int i = 0; i < numEdges; i++) {
-        // Get the source and destination vertices
+        // Получить исходную и конечную вершины
         int sourceVertex = graph.edges[i].sourceVertex;
         int destinationVertex = graph.edges[i].destinationVertex;
 
-        // Set the corresponding entries in the incidence matrix
+        // Установить соответствующие записи в матрице инцидентности
         incidenceMatrix[sourceVertex].push_back(i);
         incidenceMatrix[destinationVertex].push_back(i);
     }
 }
 
-// The function of adding a vertex. Data about incident edges is set from the console.
+// Функция добавления вершины. Данные об инцидентных ребрах задаются из консоли.
 void addVertex(Graph &graph) {
     int vertexId;
 
-    // Ask the user for the vertex id
+    // Запрашиваем у пользователя идентификатор вершины
     cout << "Enter the vertex id: ";
     cin >> vertexId;
 
-    // Create the vertex
+    // Создаем вершину
     Vertex vertex;
     vertex.id = vertexId;
     graph.vertices.push_back(vertex);
 
-    // Ask the user for the number of incident edges
+    // Запросите у пользователя количество инцидентных ребер
     int numIncidentEdges;
     cout << "Enter the number of incident edges: ";
     cin >> numIncidentEdges;
 
-    // Create the incident edges
+    // Создаем инцидентные ребра
     for (int i = 0; i < numIncidentEdges; i++) {
         Edge edge;
         edge.sourceVertex = vertexId;
@@ -149,23 +149,24 @@ void addVertex(Graph &graph) {
 }
 
 int main() {
-    // Create a graph
+    // Создаем граф
     Graph graph;
 
-    // Fill the graph randomly
+    // Наполняем его случайными числами
     fillGraphRandomly(graph);
 
-    // Print the graph data to a text file
+    // Выводим граф в файл
     printGraphToFile(graph, "../graph.txt");
 
-    // Read the graph data from a text file
+    // Читаем граф из файла
     Graph graph2 = readGraphFromFile("../graph.txt");
 
-    // Build the incidence matrix
+    // строим матрицу инцидентности
     vector<vector<int>> incidenceMatrix;
     buildIncidenceMatrix(graph2, incidenceMatrix);
 
-    // Print the incidence matrix
+    // Выводим матрицу инцидентности
+    cout << "Incident matrix" << endl;
     for (int i = 0; i < incidenceMatrix.size(); i++) {
         for (int j = 0; j < incidenceMatrix[i].size(); j++) {
             cout << incidenceMatrix[i][j] << " ";
