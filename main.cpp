@@ -148,34 +148,54 @@ void addVertex(Graph &graph) {
     }
 }
 
+void menu() {
+    cout << " 1. Fill a graph randomly.\n2. Print a graph to a file.\n3. Read a graph from a file.\n4. Build an incidence matrix.\n5. Add a vertex.\n6. Exit." << endl;
+}
+
 int main() {
-    // Создаем граф
-    Graph graph;
+    int choice;
 
-    // Наполняем его случайными числами
-    fillGraphRandomly(graph);
+    do {
+        // Создаем граф
+        Graph graph;
+        Graph graph2;
 
-    // Выводим граф в файл
-    printGraphToFile(graph, "../graph.txt");
+        menu();
+        cout << "Make a choice: ";
+        cin >> choice;
 
-    // Читаем граф из файла
-    Graph graph2 = readGraphFromFile("../graph.txt");
+        if (choice == 1) {
+            // Наполняем его случайными числами
+            fillGraphRandomly(graph);
+            cout << "Done!" << endl;
+        } else if (choice == 2) {
+            // Выводим граф в файл
+            printGraphToFile(graph, "../graph.txt");
+            cout << "Done!" << endl;
+        } else if (choice == 3) {
+            // Читаем граф из файла
+             graph2 = readGraphFromFile("../graph.txt");
+        } else if (choice == 4) {
+            // строим матрицу инцидентности
+            vector<vector<int>> incidenceMatrix;
+            buildIncidenceMatrix(graph2, incidenceMatrix);
 
-    // строим матрицу инцидентности
-    vector<vector<int>> incidenceMatrix;
-    buildIncidenceMatrix(graph2, incidenceMatrix);
-
-    // Выводим матрицу инцидентности
-    cout << "Incident matrix" << endl;
-    for (int i = 0; i < incidenceMatrix.size(); i++) {
-        for (int j = 0; j < incidenceMatrix[i].size(); j++) {
-            cout << incidenceMatrix[i][j] << " ";
+            // Выводим матрицу инцидентности
+            cout << "Incident matrix" << endl;
+            for (int i = 0; i < incidenceMatrix.size(); i++) {
+                for (int j = 0; j < incidenceMatrix[i].size(); j++) {
+                    cout << incidenceMatrix[i][j] << " ";
+                }
+                cout << endl;
+            }
+        } else if (choice == 5) {
+            // Add a vertex
+            addVertex(graph2);
         }
-        cout << endl;
-    }
 
-    // Add a vertex
-    addVertex(graph2);
+    } while (choice > 0 && choice <= 6);
+
+
 
     return 0;
 }
